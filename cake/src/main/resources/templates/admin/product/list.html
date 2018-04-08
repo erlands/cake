@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/static/css/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/css/icon.css">
+<script type="text/javascript" src="/static/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<table id="dg"></table>
+	<div id="dd"></div>
+
+	<script type="text/javascript">
+		$(function() {
+			var col = [
+					{
+						field : 'proName',
+						title : '商品名',
+						width : 100
+					},
+					{
+						field : 'img',
+						title : '图片',
+						width : 100,
+						formatter : function(value, row, index) {
+							return "<img style='height:100px' src='"+value+"' />";
+						}
+					},
+					{
+						field : 'price',
+						title : '价格',
+						width : 100
+					},
+					{
+						field : 'proDesc',
+						title : '描述',
+						width : 100
+					},
+					{
+						field : 'createTime',
+						title : '上架时间',
+						width : 130
+					},
+					{
+						field : 'id',
+						title : '操作',
+						width : 100,
+						formatter : function(value, row, index) {
+							var update = "<a href='javascript:void(0)' onclick=update("
+									+ value + ")>修改</a>";
+							var remove = "<a href='javascript:void(0)' onclick=remove("
+									+ value + ")>删除</a>";
+							return update + "|" + remove;
+						}
+					} ];
+			$('#dg').datagrid({
+				url : '/admin/product/list',
+				columns : [ col ],
+				pagination: true,
+				pagePosition: 'bottom',
+				pageNumber: 1,
+				pageSize: 10,
+				pageList: [10,20,30],
+				toolbar : [ {
+					iconCls : 'icon-add',
+					handler : function() {
+						$('#dd').dialog({
+							title : '添加',
+							width : 400,
+							height : 300,
+							closed : false,
+							cache : false,
+							href : '/admin/product/toAdd',
+							modal : true
+						});
+
+					}
+				}, '-', {
+					iconCls : 'icon-remove',
+					handler : function() {
+						var arr = $('#dg').datagrid('getSelections');
+						if (arr == null) {
+							$.messager.alert('提示', '请至少选择一项要删除的商品');
+							return;
+						}
+
+						$.messager.confirm('确认', '您确认想要删除记录吗？', function(r) {
+							if (r) {
+								var ids = new Array();
+								$.each(arr,function(index){
+									ids.push(this.id);
+								})
+								var url = "/admin/product/delete";
+								var param = {
+									ids : ids.join(',')
+								};
+								$.post(url, param, function(res) {
+									if (res.result == 'ok') {
+										$('#dg').datagrid('reload');
+										$.messager.show({
+											title:'删除成功!',
+											msg:'商品删除成功!',
+											timeout:3000,
+											showType:'slide'
+										});
+									}else{
+										$.messager.show({
+											title:'删除失败!',
+											msg:res.errMsg,
+											timeout:3000,
+											showType:'slide'
+										});
+									}
+								}, 'json');
+							}
+						});
+					}
+				}, '-', {
+					iconCls : 'icon-mini-refresh',
+					handler : function() {
+						$('#dg').datagrid('reload')
+					}
+				} ]
+			});
+		});
+
+		function update(id) {
+			$('#dd').dialog({
+				title : '修改',
+				width : 400,
+				height : 350,
+				closed : false,
+				cache : false,
+				href : '/admin/product/toEdit?id='+id,
+				modal : true
+			});
+		}
+		function remove(id) {
+			$.messager.confirm('确认', '您确认想要删除记录吗？', function(r) {
+				if (r) {
+					var url = "/admin/product/delete";
+					var param = {
+						ids : id
+					};
+					$.post(url, param, function(res) {
+						if (res.result == 'ok') {
+							$('#dg').datagrid('reload');
+							$.messager.show({
+								title:'删除成功!',
+								msg:'商品删除成功!',
+								timeout:3000,
+								showType:'slide'
+							});
+						}else{
+							$.messager.show({
+								title:'删除失败!',
+								msg:res.errMsg,
+								timeout:3000,
+								showType:'slide'
+							});
+						}
+					}, 'json');
+				}
+			});
+		}
+	</script>
+</body>
+</html>

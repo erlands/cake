@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.cake.dao.ProductDao">
+	<sql id="columnList">
+		id,pro_name as proName,pro_desc as
+		proDesc,price,create_time as createTime,img
+	</sql>
+	<select id="list" resultType="com.example.cake.entity.Product">
+		select
+		<include refid="columnList"></include>
+		from
+		product
+		order by
+		createTime desc
+		limit #{start},#{pageSize}
+	</select>
+
+	<insert id="save" parameterType="com.example.cake.entity.Product"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		product(pro_name,pro_desc,price,create_time,img)
+		values(#{proName},#{proDesc},#{price},#{createTime},#{img})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from product where id = #{id}
+	</delete>
+	
+	<select id="get" parameterType="int" resultType="com.example.cake.entity.Product">
+		select 
+			<include refid="columnList" />
+		from
+			product
+		where 
+			id = #{id}
+	</select>
+	
+	<update id="update" parameterType="com.example.cake.entity.Product">
+		update 
+			product
+		<set>
+			<if test="proName != null">pro_name =  #{proName},</if>
+			<if test="price != null">price =  #{price},</if>
+			<if test="proDesc != null">pro_desc =  #{proDesc},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="img != null">img = #{img}</if>
+		</set>
+		where 
+			id = #{id}
+	</update>
+	
+	<select id="count" resultType="int">
+		select 
+			count(id)
+		from 
+			product
+	</select>
+	
+</mapper>

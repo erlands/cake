@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/easyui.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+<script type="text/javascript"
+	th:src="@{/static/js/jquery-1.8.2.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/static/js/jquery.easyui.min.js}"></script>
+</head>
+<body>
+	<div style="margin: 20px 0;"></div>
+	<div style="padding: 10px 60px 20px 60px">
+		<form id="ff" method="post" th:action="@{/admin/product/add}" enctype="multipart/form-data">
+			<table cellpadding="5">
+				<tr>
+					<td>商品名:</td>
+					<td><input class="easyui-textbox" type="text" name="proName"
+						data-options="required:true"></input></td>
+				</tr>
+				<tr>
+					<td>单价:</td>
+					<td><input type="text" class="easyui-numberbox" name="price"
+						data-options="min:0,precision:2"></input></td>
+				</tr>
+				<tr>
+					<td>描述:</td>
+					<td><input class="easyui-textbox" name="proDesc"
+						data-options="multiline:true" style="height: 60px"></input></td>
+				</tr>
+				<tr>
+					<td>图片:</td>
+					<td><input class="easyui-filebox" name="file" accept="image/*"
+						data-options="prompt:'选择图片'" style="width: 100%"></td>
+				</tr>
+
+			</table>
+		</form>
+		<div style="text-align: center; padding: 5px">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				onclick="submitForm()">Submit</a> <a href="javascript:void(0)"
+				class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+		</div>
+	</div>
+	<script>
+		function submitForm() {
+			$('#ff').form('submit',{
+				success:function(res){
+					if('ok' == res){
+						$.messager.show({
+							title:'添加成功!',
+							msg:'商品添加成功!',
+							timeout:3000,
+							showType:'slide'
+						});
+						$('#dg').datagrid('reload');
+						$('#dd').dialog('close');
+					}else{
+						$.messager.show({
+							title:'添加失败!',
+							msg:res,
+							timeout:3000,
+							showType:'slide'
+						});
+					}
+				}
+			});
+		}
+		function clearForm() {
+			$('#ff').form('clear');
+		}
+	</script>
+</body>
+</html>
