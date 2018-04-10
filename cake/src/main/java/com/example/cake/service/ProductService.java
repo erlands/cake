@@ -16,4 +16,6 @@ public interface ProductService {
 	public Product get(int id);
 
 	public void update(Product bean);
+
+	public Page<Product> newPro(Integer pageNo, Integer pageSize);
 }

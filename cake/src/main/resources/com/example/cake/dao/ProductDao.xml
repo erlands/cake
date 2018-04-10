@@ -10,6 +10,16 @@
 		<include refid="columnList"></include>
 		from
 		product
+		order by 
+		id
+		limit #{start},#{pageSize}
+	</select>
+	
+	<select id="newPro" resultType="com.example.cake.entity.Product">
+		select
+		<include refid="columnList"></include>
+		from
+		product
 		order by
 		createTime desc
 		limit #{start},#{pageSize}

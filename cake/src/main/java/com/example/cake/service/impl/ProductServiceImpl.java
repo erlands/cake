@@ -19,11 +19,25 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Page<Product> list(Integer pageNo,Integer pageSize) {
 		Page<Product> page = new Page<Product>();
-		
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
 		int total = this.dao.count();
 		page.setTotal(total);
 		
 		List<Product> list = this.dao.list((pageNo - 1) * pageSize, pageSize);
+		page.setRows(list);
+		return page;
+	}
+	
+	@Override
+	public Page<Product> newPro(Integer pageNo, Integer pageSize) {
+		Page<Product> page = new Page<Product>();
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		int total = this.dao.count();
+		page.setTotal(total);
+		
+		List<Product> list = this.dao.newPro((pageNo - 1) * pageSize, pageSize);
 		page.setRows(list);
 		return page;
 	}
@@ -59,5 +73,4 @@ public class ProductServiceImpl implements ProductService {
 	public void update(Product bean) {
 		this.dao.update(bean);
 	}
-
 }

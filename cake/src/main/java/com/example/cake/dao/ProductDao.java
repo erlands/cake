@@ -19,4 +19,6 @@ public interface ProductDao {
 	public void update(Product bean);
 
 	public int count();
+
+	public List<Product> newPro(@Param("start")Integer start,@Param("pageSize")Integer pageSize);
 }

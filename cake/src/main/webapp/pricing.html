@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Culinary Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<script src="js/jquery-1.11.0.min.js"></script>
+
+<!---- start-smoth-scrolling---->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+		</script>
+<!--start-smoth-scrolling-->
+<!--start-top-nav-script-->
+		<script>
+			$(function() {
+				var pull 		= $('#pull');
+					menu 		= $('nav ul');
+					menuHeight	= menu.height();
+				$(pull).on('click', function(e) {
+					e.preventDefault();
+					menu.slideToggle();
+				});
+				$(window).resize(function(){
+	        		var w = $(window).width();
+	        		if(w > 320 && menu.is(':hidden')) {
+	        			menu.removeAttr('style');
+	        		}
+	    		});
+			});
+		</script>
+<!--End-top-nav-script-->
+</head>
+<body>
+<!--start-header-->
+	<div class="header" id="home">
+		<div class="container">
+			<div class="header-mian">
+			<div class="head">
+				<div class="logo">
+					<a href="index.html"><img src="images/logo.png" alt="" /></a>
+				</div>
+				<div class="call">
+					<ul>
+						<li><p>CALL 000.123.4567</p></li>
+						<li><p class="msg"><a href="#"><img src="images/msg.png" alt=""/></a></p></li>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="navigation">
+				 	<span class="menu">MENU</span> 
+					<ul class="navig">
+						<li><a href="index.html">首页</a></li>
+						<li><a href="pricing.html?type=all">所有商品</a></li>
+						<li><a href="pricing.html?type=hot">热门商品</a></li>
+						<li><a href="pricing.html?type=good">顾客好评</a></li>
+						<li><a href="pricing.html?type=rec">店长推荐</a></li>
+						<li><a href="pricing.html?type=new">新品上市</a></li>
+					</ul>
+				</div>
+				</div>
+			</div>
+		</div>	
+	<!-- script-for-menu -->
+		 <script>
+		 	var pageNo = 1;
+			$("span.menu").click(function(){
+				$(" ul.navig").slideToggle("slow" , function(){
+				});
+			});
+			$(function(){
+				load();
+			})
+			
+			function load(){
+				var type = GetQueryString("type");
+				if(type == null || type == ''){
+					type = "all";
+				}
+				var url = "/product/"+type
+					$.post(url,{pageNo:pageNo,pageSize:9},function(res){
+						if(res.total != 0){
+							$("#gallery").empty();
+							var i = 0;
+							var prefix = "<div class='gallery'>";
+							var suffix = '';
+							$("#gallery").append(prefix);
+							$.each(res.rows,function(){
+								suffix = '';
+								if(i!= 0 && i%3 == 0){
+									suffix = "<div class='clearfix'> </div></div>"+prefix;
+								}
+								i++;
+								var body = "<div class='gal'>"+
+									"<a href='"+this.img+"' class=' mask b-link-stripe b-animate-go   swipebox'  title='Meat'>"+
+									"<img src='"+this.img+"' class='img-responsive zoom-img'/>"+
+									"</a>"+
+									"<div class='gal-text'>"+
+									"<p>"+this.proName+"</p>"+
+									"</div>"+
+									"</div>";
+								$("#gallery").append(suffix+body);
+							});
+							suffix = "<div class='clearfix'> </div></div>";
+							$("#gallery").append(suffix);
+							
+							//分页
+							$("#pagination").empty();
+							if(res.pageNo = 1){
+								$("#pagination").append("<li class='disabled'><a href='javascript:void(0)'>&laquo;</a></li>");
+							}else{
+								$("#pagination").append("<li><a href='javascript:void(0)' onclick='last()' >&laquo;</a></li>");
+							}
+							
+							for(var v=res.start;v<=res.end;v++){
+								if(v == res.pageNo){
+									$("#pagination").append("<li class='active'><a href='javascript:void(0)'>"+v+"</a></li>");
+								}else{
+									$("#pagination").append("<li><a href='javascript:void(0)'>"+v+"</a></li>");
+								}
+								
+							}
+							if(res.pageNo == res.totalPage){
+								$("#pagination").append("<li class='disabled'><a href='javascript:void(0)'>&raquo;</a></li>");
+							}else{
+								$("#pagination").append("<li><a href='javascript:void(0)' onclick='next()'>&raquo;</a></li>");
+							}
+						}
+					},"json");
+			}
+			
+			function last(){
+				pageNo = pageNo - 1;
+				load();
+			}
+			function next(){
+				pageNo = pageNo + 1;
+				load();
+			}
+		 </script>
+	<!-- script-for-menu -->
+	<!--start-menu-->	
+	<div  class="portfolio-filter text-center">
+		<div id="gallery" class="container">
+
+		</div>
+		
+		<ul id="pagination" class="pagination">
+		    
+		</ul>
+			
+		<!-- Script for gallery Here -->
+				<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+					<script type="text/javascript">
+					$(function () {
+						
+						var filterList = {
+						
+							init: function () {
+							
+								// MixItUp plugin
+								// http://mixitup.io
+								$('#portfoliolist').mixitup({
+									targetSelector: '.portfolio',
+									filterSelector: '.filter',
+									effects: ['fade'],
+									easing: 'snap',
+									// call the hover effect
+									onMixEnd: filterList.hoverEffect()
+								});				
+							
+							},	
+							hoverEffect: function () {
+							
+								// Simple parallax effect
+								$('#portfoliolist .portfolio').hover(
+									function () {
+										$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeOutQuad');
+										$(this).find('img').stop().animate({top: -30}, 500, 'easeOutQuad');				
+									},
+									function () {
+										$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
+										$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
+									}		
+								);				
+
+							}
+				
+						};		
+						// Run the show!
+						filterList.init();					
+					});	
+					</script>
+				<!-- Gallery Script Ends -->
+			<!--swipebox -->	
+			<link rel="stylesheet" href="css/swipebox.css">
+				<script src="js/jquery.swipebox.min.js"></script> 
+				<script type="text/javascript">
+					jQuery(function($) {
+						$(".swipebox").swipebox();
+					});
+				</script>
+			<!--//swipebox Ends -->
+	</div>
+	<!--end-menu-->	
+	<!--start-footer-->	
+	<div class="footer">
+		<div class="container">
+			<div class="footer-top">
+				<div class="col-md-3 footer-top-left ftr-one">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="services.html">Services</a></li>
+						<li><a href="pricing.html">Gallery</a></li>
+						<li><a href="staff.html">Staff</a></li>
+						<li><a href="contact.html">Contact</a></li>
+						<li><a href="404.html">Online Order</a></li>
+						<li><a href="#">Student Plans</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-top-left ftr-two">
+					<ul>
+						<li><a href="#">Terms of Use</a></li>
+						<li><a href="#">Disclaimer</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-top-left ftr-tre">
+					<ul>
+						<li><a href="#">Facebook</a></li>
+						<li><a href="#">Twitter</a></li>
+						<li><a href="#">You Tube</a></li>
+						<li><a href="#">Our Blog</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-top-left">
+					<p>000.123.4567</p>
+					<a href="mailto:example@email.com">info@Culinary.com</a>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--end-footer-->	
+	<!--start-footer-bottom-->	
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="footer-text">
+				<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+			</div>
+		</div>
+		<script type="text/javascript">
+									$(document).ready(function() {
+										/*
+										var defaults = {
+								  			containerID: 'toTop', // fading element id
+											containerHoverID: 'toTopHover', // fading element hover id
+											scrollSpeed: 1200,
+											easingType: 'linear' 
+								 		};
+										*/
+										
+										$().UItoTop({ easingType: 'easeOutQuart' });
+										
+									});
+								</script>
+		<a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	</div>
+	<!--end-footer-bottom-->
+	<script type="text/javascript">
+		function GetQueryString(name) {
+			var LocString = String(window.document.location.href);
+		    var rs = new RegExp("(^|)" + name + "=([^&]*)(&|$)", "gi").exec(LocString), tmp;
+		    if (tmp = rs) {
+		        return decodeURI(tmp[2]);
+		    }
+		    // parameter cannot be found
+		    return "";
+		}
+	</script>				 
+</body>
+</html>
