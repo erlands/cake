@@ -15,7 +15,6 @@ import com.example.cake.entity.Page;
 import com.example.cake.entity.Product;
 import com.example.cake.entity.Result;
 import com.example.cake.service.ProductService;
-import com.example.cake.utils.DateUtils;
 import com.example.cake.utils.StrUtils;
 
 @Controller
@@ -45,7 +44,7 @@ public class ProductController {
 			pro.setImg("/u/"+fileName);
 		}
 		
-		pro.setCreateTime(DateUtils.getDate());
+		pro.init();
 		
 		service.save(pro);
 		return "ok";

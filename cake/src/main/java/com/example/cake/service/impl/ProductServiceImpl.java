@@ -73,4 +73,45 @@ public class ProductServiceImpl implements ProductService {
 	public void update(Product bean) {
 		this.dao.update(bean);
 	}
+
+	@Override
+	public Product hot(Integer id) {
+		Product product = this.get(id);
+		product.setHot(product.getHot()+1);
+		this.dao.hot(product);
+		return product;
+	}
+
+	@Override
+	public Page<Product> hotList(Integer pageNo, Integer pageSize) {
+		Page<Product> page = new Page<Product>();
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		int total = this.dao.count();
+		page.setTotal(total);
+		
+		List<Product> list = this.dao.hotList((pageNo - 1) * pageSize, pageSize);
+		page.setRows(list);
+		return page;
+	}
+
+	@Override
+	public void good(Integer id) {
+		Product product = this.get(id);
+		product.setGood(product.getGood()+1);
+		this.dao.good(product);
+	}
+
+	@Override
+	public Page<Product> goodList(Integer pageNo, Integer pageSize) {
+		Page<Product> page = new Page<Product>();
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		int total = this.dao.count();
+		page.setTotal(total);
+		
+		List<Product> list = this.dao.goodList((pageNo - 1) * pageSize, pageSize);
+		page.setRows(list);
+		return page;
+	}
 }

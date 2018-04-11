@@ -43,5 +43,39 @@ public class FrontController {
 		return this.productService.newPro(pageNo,pageSize);
 	}
 	
+	@RequestMapping("/product/good")
+	@ResponseBody
+	public Page<Product> good(Integer pageNo,Integer pageSize){
+		if(pageNo == null || pageNo < 1) {
+			pageNo = 1;
+		}
+		
+		if(pageSize == null || pageSize < 1) {
+			pageSize = DEFAULT_PAGE_SIZE;
+		}
+		
+		return this.productService.goodList(pageNo,pageSize);
+	}
+	
+	@RequestMapping("/product/hot")
+	@ResponseBody
+	public Page<Product> hot(Integer pageNo,Integer pageSize){
+		if(pageNo == null || pageNo < 1) {
+			pageNo = 1;
+		}
+		
+		if(pageSize == null || pageSize < 1) {
+			pageSize = DEFAULT_PAGE_SIZE;
+		}
+		return this.productService.hotList(pageNo,pageSize);
+	}
+	
+	
+	@RequestMapping("/product/get")
+	@ResponseBody
+	public Product get(Integer id) {
+		return productService.hot(id);
+	}
+	
 	private static final int DEFAULT_PAGE_SIZE = 9;
 }

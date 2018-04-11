@@ -18,4 +18,12 @@ public interface ProductService {
 	public void update(Product bean);
 
 	public Page<Product> newPro(Integer pageNo, Integer pageSize);
+
+	public Product hot(Integer id);
+
+	public Page<Product> hotList(Integer pageNo, Integer pageSize);
+
+	public void good(Integer id);
+
+	public Page<Product> goodList(Integer pageNo, Integer pageSize);
 }

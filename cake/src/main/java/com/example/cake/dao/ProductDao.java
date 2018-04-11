@@ -21,4 +21,12 @@ public interface ProductDao {
 	public int count();
 
 	public List<Product> newPro(@Param("start")Integer start,@Param("pageSize")Integer pageSize);
+
+	public int hot(Product product);
+
+	public List<Product> hotList(@Param("start")Integer start,@Param("pageSize")Integer pageSize);
+
+	public int good(Product product);
+
+	public List<Product> goodList(@Param("start")Integer start,@Param("pageSize")Integer pageSize);
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+		function GetQueryString(name) {
+			var LocString = String(window.document.location.href);
+		    var rs = new RegExp("(^|)" + name + "=([^&]*)(&|$)", "gi").exec(LocString), tmp;
+		    if (tmp = rs) {
+		        return decodeURI(tmp[2]);
+		    }
+		    // parameter cannot be found
+		    return "";
+		}
+		
+		$(function(){
+			var id = GetQueryString("id");
+			
+			var url = "/product/get";
+			var params = {id:id};
+			$.post(url,params,function(res){
+				window.location = res.img;
+			},"json")
+		});
+	</script>
+</body>
+</html>

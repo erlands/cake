@@ -3,7 +3,7 @@
 <mapper namespace="com.example.cake.dao.ProductDao">
 	<sql id="columnList">
 		id,pro_name as proName,pro_desc as
-		proDesc,price,create_time as createTime,img
+		proDesc,price,create_time as createTime,img,hot,good
 	</sql>
 	<select id="list" resultType="com.example.cake.entity.Product">
 		select
@@ -22,6 +22,26 @@
 		product
 		order by
 		createTime desc
+		limit #{start},#{pageSize}
+	</select>
+	
+	<select id="hotList" resultType="com.example.cake.entity.Product">
+		select
+		<include refid="columnList"></include>
+		from
+		product
+		order by
+		hot desc
+		limit #{start},#{pageSize}
+	</select>
+	
+	<select id="goodList" resultType="com.example.cake.entity.Product">
+		select
+		<include refid="columnList"></include>
+		from
+		product
+		order by
+		good desc
 		limit #{start},#{pageSize}
 	</select>
 
@@ -65,5 +85,13 @@
 		from 
 			product
 	</select>
+	
+	<update id="hot" parameterType="com.example.cake.entity.Product">
+		update product set hot = #{hot} where id = #{id}
+	</update>
+	
+	<update id="good" parameterType="com.example.cake.entity.Product">
+		update product set good = #{good} where id = #{id}
+	</update>
 	
 </mapper>

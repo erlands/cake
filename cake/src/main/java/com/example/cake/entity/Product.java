@@ -2,6 +2,8 @@ package com.example.cake.entity;
 
 import java.io.Serializable;
 
+import com.example.cake.utils.DateUtils;
+
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = -8891703408633774393L;
@@ -17,6 +19,17 @@ public class Product implements Serializable {
 	private String createTime;
 	
 	private String img;
+	
+	private Integer hot;
+	
+	private Integer good;
+	
+	public Product init() {
+		this.hot = 0;
+		this.good = 0;
+		this.createTime = DateUtils.getDate();
+		return this;
+	}
 	
 	
 
@@ -66,6 +79,22 @@ public class Product implements Serializable {
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public Integer getHot() {
+		return hot;
+	}
+
+	public void setHot(Integer hot) {
+		this.hot = hot;
+	}
+
+	public Integer getGood() {
+		return good;
+	}
+
+	public void setGood(Integer good) {
+		this.good = good;
 	}
 	
 	
